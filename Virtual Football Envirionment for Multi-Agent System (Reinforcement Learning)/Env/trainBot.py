@@ -174,8 +174,8 @@ class PEReplayBuffer:
             all_content_f = "Server send:" + packages[i+1]
             s_m = re.search(r"Server send:'([ 0-9-]*)'", all_content)
             s_m_f = re.search(r"Server send:'([ 0-9-]*)'", all_content_f)
-            a_m = re.search(r"Bot A send:'([ 0-9]*)'", all_content)
-            b_m = re.search(r"Bot B send:'([ 0-9]*)'", all_content)
+            a_m = re.search(r"Bot A send:'([ 0-9-]*)'", all_content)
+            b_m = re.search(r"Bot B send:'([ 0-9-]*)'", all_content)
             server_content = ""
             server_content_f = ""
             if (s_m is not None) and (s_m_f is not None): 
