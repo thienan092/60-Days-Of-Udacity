@@ -1,4 +1,5 @@
 #pragma once
+
 #define BOT_ID 0
 
 #define STR_X(x) #x
@@ -42,3 +43,45 @@ const int SHOOT_ACTION_SIZE = MOVE_ACTION_SIZE * FORCE_FD;
 const int is_ready = BOT_ID;
 const double noise_prob = 0.4;
 const float ALPHA = 0.01;
+
+extern int mapWidth;
+extern int mapHeight;
+// const int mapWidth = 14400;
+// const int mapHeight = 9600;
+
+// Strutures and Functions
+
+struct Position
+{
+	int x;
+	int y;
+	Position() : x(0), y(0) {}
+	Position(int _x, int _y) : x(_x), y(_y) {}
+	Position operator =(Position pos) { x = pos.x; y = pos.y; return *this; }
+};
+
+enum Action
+{
+	WAIT = 0,
+	RUN,
+	SHOOT
+};
+
+struct Object
+{
+	int ID;
+	Position m_pos;
+	Position m_targetPos; //direction of moving/target pos
+	Position m_moveSpeed;
+
+	int m_action;
+	int m_force;
+};
+
+void ChangePos(Object& A, int myTeamID, int match);
+void ChangePos(int& x, int&y, int myTeamID, int match);
+bool CanShoot(Position& mPos, Position& ballPos);
+float DistancePos(Position& PosA, Position& PosB);
+void input_to_norm_states(int gameTurn, Object& oBall, Object** Player_A, Object** Player_B, float* state, int* Bmap);
+void to_pos_x_y(Object& player, int q_id, int& x, int& y);
+void to_pos_x_y_f(Object& player, int q_id, int& x, int& y, int& f);

@@ -16,6 +16,9 @@
     <Filter Include="Mini Flow">
       <UniqueIdentifier>{9cdc8ee6-c977-433a-a20a-c09fa0893db4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{f3c61bee-bc3c-4894-8764-9f77dd6e90fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BotDemo.cpp">
@@ -27,15 +30,27 @@
     <ClCompile Include="MiniFlow.cpp">
       <Filter>Mini Flow</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="OUNoise.txt" />
+    <ClCompile Include="Model.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Features.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="npy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MiniFlow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Features.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

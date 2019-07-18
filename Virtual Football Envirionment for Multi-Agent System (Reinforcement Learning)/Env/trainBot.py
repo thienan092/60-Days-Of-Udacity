@@ -2,8 +2,9 @@ import os, re, itertools, random, math
 import tensorflow as tf
 import numpy as np
 from collections import namedtuple, deque
-import globals
-import model
+from features import Features
+import globals, model
+
             
 class ServerInfo:
     def __init__(self):
@@ -11,19 +12,10 @@ class ServerInfo:
         self.Player_A = [globals.Object() for _ in range(globals.N_PLAYER)]
         self.Player_B = [globals.Object() for _ in range(globals.N_PLAYER)]
         self.features = None
-        # std::cin >> gameTurn >> scoreTeamA >> scoreTeamB >> stateMath;
         self.gameTurn = -1
         self.scoreTeamA = -1
         self.scoreTeamB = -1
         self.stateMath = -1
-        
-        # std::cin >> oBall.m_pos.x >> oBall.m_pos.y >> oBall.m_moveSpeed.x >> oBall.m_moveSpeed.y;
-        
-        # //input team players A
-        # for (int i = 0; i < N_PLAYER; i++) {
-            # std::cin >> Player_A[i].ID >> Player_A[i].m_pos.x >> Player_A[i].m_pos.y;
-            # to_py_stream << Player_A[i].ID << '\n'<< Player_A[i].m_pos.x << '\n' << Player_A[i].m_pos.y << '\n';
-        # }
         
     def parse_server_content(self, server_content):
         item_list = server_content.split(" ")
@@ -59,7 +51,7 @@ class ServerInfo:
                 self.Player_A[i].m_pos.y = int(c)
                 i = i + 1
                 
-        self.features = globals.Features(self.Player_A, self.Player_B, self.oBall)
+        self.features = Features(self.Player_A, self.Player_B, self.oBall)
         return match
             
 class BotAInfo:
@@ -341,8 +333,6 @@ class Trainer:
                 print(loss)
         
     def train(self, bot_num):
-        if True: # testing purpose
-            bot_num = 1
         for i in range(self.epoch_count):
             experiences_indices = self.replay_buffer.sample_indices(batch_size=self.batch_size)
             
@@ -362,16 +352,6 @@ class Trainer:
                 
                 target_Qs = self.sess.run(self.team_group.test_layer, # self.team_group.team_member_move_shoot_output[bot_id], 
                             feed_dict={self.team_group.states: next_states, self.team_group.is_training: False})
-                            
-                if True: # testing purpose
-                    np.savetxt("py_next_sts", next_states)
-                    np.savetxt("py_target_Qs", target_Qs)
-                    stophere()
-                
-                # if bot_id == 4:
-                    # np.savetxt("py_next_sts", next_states)
-                    # np.savetxt("py_target_Qs", target_Qs)
-                    # stophere()
                             
                 max_Qs_next[bot_id] = np.max(target_Qs, axis=1).reshape(-1,1)
                 
@@ -398,17 +378,6 @@ class Trainer:
                                        self.team_group.actions_: actions, self.team_group.gradient_weights: p_b_weights, self.team_group.is_training: True})
                                        
                 print(loss)
-                    
-                    
-                # print("Training critc ...")
-                # max_Qs = self.sess.run(self.team_group.critic_q_net, 
-                                # feed_dict={self.team_group.states: next_states})
-
-                # maxs = rewards + globals.GAMMA * max_Qs
-                
-                # loss, _ = self.sess.run([self.team_group.critic_loss, self.team_group.critic_opt],
-                                # feed_dict={self.team_group.states: states,
-                                           # self.team_group.targetQs_: maxs})
             
         print("Saving After Training...")
         t_vars = tf.trainable_variables()
