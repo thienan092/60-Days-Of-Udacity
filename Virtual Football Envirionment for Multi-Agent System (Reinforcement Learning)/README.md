@@ -99,7 +99,7 @@ In that,
 |  |  | class PEReplayBuffer | Create a [Prioritized Experience Replay buffer](https://arxiv.org/pdf/1511.05952.pdf) (contains fields are ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
 |  |  | class Trainer | Train agents and save matrices to *.npy files |
 
-## Simulate the match
+## Simulate a match
 
 1. Build your bot with the Visual C++ compiler. 
 2. Rename it to BotDemo<BOT_ID>.exe. 
