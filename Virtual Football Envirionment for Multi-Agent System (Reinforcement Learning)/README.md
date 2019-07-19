@@ -1,6 +1,6 @@
-# Virtual Football Envirionment for Multi-Agent System
+# Virtual Football Environment for Multi-Agent System
 
-This project is not only a Multi-Agent environment, but also an illustration of a workaround to apply Deep Learning frameworks into traditional AI competitions.
+This project is not only a Multi-Agent environment but also an illustration of a workaround to apply Deep Learning frameworks into traditional AI competitions.
 
 ## Getting started 
 
@@ -24,13 +24,13 @@ The size of the football field: *14400 x 9600* units, lasts in *1156* turns (*50
 
 - The middle point of the goals is the middle point of the horizontal borders. 
 
-- If the ball is moving, it's velocity will be decrease by: *120* (unit/turn), each turn till it has stopped. 
+- If the ball is moving, it's velocity will be decreased by: *120* (unit/turn), each turn till it has stopped. 
 
 
-Events in in order of time: 
+Events in order of time: 
 
 1. Initialization (before turns): 
-- Your bot send intitial positions of players to the server. If ignored, the default positions will be applied. These positions will be also used for the second half. 
+- Your bot sends initial positions of players to the server. If ignored, the default positions will be applied. These positions will be also used for the second half. 
 
 Format of initial message: 
 
@@ -40,14 +40,14 @@ Format of initial message:
 - There must be only one player, of the left team, in the middle circle. 
 
 2. Getting general information: 
-- The server send information about the goal's id (0: the left goal, 1: the right goal), map width, map height, no. turns to the bot in this format: 
+- The server sends information about the goal's id (0: the left goal, 1: the right goal), map width, map height, no. turns to the bot in this format: 
 
 `[GoalId] [MapWidth] [MapHeight] [NoTurn]`
 
 ![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/init_server_info.PNG)
 
 3. For each turn: 
-- The server send states of the match (environment state) to the bot (without carriage returns): 
+- The server sends states of the match (environment state) to the bot (without carriage returns): 
 ```
 [Turn] [m_scoreTeamA] [m_scoreTeamB] [stateMath] [ballPosX] [ballPosY] [ballSpeedX] [ballSpeedY]
 [Player1_Team1] [Player1_Team1_posX] [Player1_Team1_posY] ... [Player1_Team2] [Player1_Team2_posX]
@@ -56,22 +56,22 @@ Format of initial message:
 
 ![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/each_turn_server_message.PNG)
 
-- The bot send control message of on-field players to the server within 100 ms: 
+- The bot sends control message of on-field players to the server within 100 ms: 
 
 `[ACTION_1] X1 Y1 F1 [ACTION_2] X2 Y2 F2 … [ACTION_n] Xn Yn Fn`
 
 In that,
 
 [ACTION_i] is action of i-th player: 
-- WAIT (0): Do nothing. Thus values of Xi, Yi and Fi will be ignored. 
+- WAIT (0): Do nothing. Thus values of Xi, Yi, and Fi will be ignored. 
 - MOVE (1): Move to (Xi, Yi) position. Fi will be ignored. 
   - Constraints for MOVE action: 
     - The maximum distance of moving, each turn, is *300* (unit). 
 - SHOT (2): Shoot the ball with the target is (Xi, Yi) position and the force is Fi. 
   - Constraints for SHOOT action: 
     - The ball is in a radius *200* (unit) from the player. 
-    - The maximum total force on the ball is *100* no matter value of Fi's. 
-    - There is a little of randomness for the moving direction of the ball (+/- 4% of 2*pi radian), in comparision with the target. But it will be robust when moving. 
+    - The maximum total force on the ball is *100* no matter the value of Fi's. 
+    - There is a little randomness for the moving direction of the ball (+/- 4% of 2*pi radian), in comparison with the target. But it will be robust when moving. 
 
 ## How does it work? 
 
@@ -95,5 +95,5 @@ In that,
 |  |  |  | ![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/model_cpp.PNG) |
 |  | .\BotDemo_C++\BotDemo\BotDemo.cpp |  | Get environment state from the server and send actions of agents back to server in each turn |
 | 2. Train your model | .\Env\trainBot.py | class ServerInfo | Parse replay-log files into features (inputs of AI algorithms) |
-|  |  | class PEReplayBuffer | Create a prioritized experience replay buffer (includes ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
+|  |  | class PEReplayBuffer | Create a [Prioritized Experience Replay buffer](https://arxiv.org/pdf/1511.05952.pdf) (includes ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
 |  |  | class Trainer | Train agents and save matrices to *.npy files |
