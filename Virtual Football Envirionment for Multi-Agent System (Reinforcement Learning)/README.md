@@ -85,7 +85,7 @@ In that,
 ![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/workaround.png)
 
 
-## Train your agents 
+## Train your agents (Demo)
 
 | Steps | File Name | Functions | Notes |
 | --- | --- | --- | --- |
