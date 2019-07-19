@@ -96,7 +96,7 @@ In that,
 |  |  |  | ![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/model_cpp.PNG) |
 |  | .\BotDemo_C++\BotDemo\BotDemo.cpp |  | Get environment state from the server and send actions of agents back to server in each turn |
 | 2. Train your model | .\Env\trainBot.py | class ServerInfo | Parse replay-log files into features (inputs of AI algorithms) |
-|  |  | class PEReplayBuffer | Create a [Prioritized Experience Replay buffer](https://arxiv.org/pdf/1511.05952.pdf) (includes ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
+|  |  | class PEReplayBuffer | Create a [Prioritized Experience Replay buffer](https://arxiv.org/pdf/1511.05952.pdf) (contains fields are ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
 |  |  | class Trainer | Train agents and save matrices to *.npy files |
 
 ## Simulate the match
