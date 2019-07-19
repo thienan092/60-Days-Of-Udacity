@@ -105,4 +105,4 @@ In that,
 2. Rename it to BotDemo<BOT_ID>.exe. 
 3. Run StartMatch.bat. 
 
-*Note: In some competitions, you are only permited to submit only the executable file. So, the last step of the workaround is changing codes of loading matrices by their real values. *
+**Note: In some competitions, you are only permitted to submit only the executable file. So, the last step of the workaround is changing codes of loading matrices by their real values.**
