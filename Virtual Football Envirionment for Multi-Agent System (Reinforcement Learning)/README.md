@@ -7,6 +7,7 @@ This project is not only a Multi-Agent environment but also an illustration of a
 - Runtime tools: Node.js (download [here](https://nodejs.org/en/blog/release/v8.11.3/)). 
 - C++ compiler: Visual C++ 2017 (it's better to setup it VC2017 along with Visual Studio 2017). 
 - Python dependencies: python (3.6.6), tensorflow (1.10.0) / pytorch (latest version), numpy (1.14.5). 
+- Run StartMatch.bat. 
 
 ## Playing rules 
 
@@ -97,3 +98,11 @@ In that,
 | 2. Train your model | .\Env\trainBot.py | class ServerInfo | Parse replay-log files into features (inputs of AI algorithms) |
 |  |  | class PEReplayBuffer | Create a [Prioritized Experience Replay buffer](https://arxiv.org/pdf/1511.05952.pdf) (includes ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
 |  |  | class Trainer | Train agents and save matrices to *.npy files |
+
+## Simulate the match
+
+1. Build your bot with the Visual C++ compiler. 
+2. Rename it to BotDemo<BOT_ID>.exe. 
+3. Run StartMatch.bat. 
+
+*Note: In some competitions, you are only permited to submit only the executable file. So, the last step of the workaround is changing codes of loading matrices by their real values. *
