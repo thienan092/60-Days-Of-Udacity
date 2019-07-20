@@ -2,7 +2,7 @@ import os, re, itertools, random, math
 import tensorflow as tf
 import numpy as np
 from collections import namedtuple, deque
-from features import Features
+from features import Features, states_to_complex_states
 import globals, model
 
             
@@ -288,10 +288,10 @@ class Trainer:
     def test(self, bot_num):
         for i in range(int(0.2 * self.epoch_count)):
             experiences_indices = self.replay_buffer.sample_indices(batch_size=self.batch_size, get_last_num=int(0.2 * self.epoch_count))
-            states = np.vstack([globals.norm_state(self.replay_buffer.get_experience_by_index(id).state) for id in experiences_indices])
+            states = np.vstack([states_to_complex_states(self.replay_buffer.get_experience_by_index(id).state) for id in experiences_indices])
             partial_rewards = np.array([self.replay_buffer.get_experience_by_index(id).reward[0] for id in experiences_indices]).astype(np.float32).reshape(-1, globals.N_PLAYER)
             global_rewards = np.array([self.replay_buffer.get_experience_by_index(id).reward[1] for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
-            next_states = np.vstack([globals.norm_state(self.replay_buffer.get_experience_by_index(id).next_state) for id in experiences_indices])
+            next_states = np.vstack([states_to_complex_states(self.replay_buffer.get_experience_by_index(id).next_state) for id in experiences_indices])
             dones = np.array([self.replay_buffer.get_experience_by_index(id).done for id in experiences_indices]).astype(np.int32).reshape(-1, 1)
             
             uni_probs = np.array([1.0 for _ in experiences_indices]).astype(np.float32).reshape(-1, 1)
@@ -339,26 +339,15 @@ class Trainer:
             
             probs = np.array([self.replay_buffer.get_probs_by_index(id) for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
             p_b_weights = np.float32(1.0) / probs
-            states = np.vstack([globals.norm_state(self.replay_buffer.get_experience_by_index(id).state) for id in experiences_indices])
+            states = np.vstack([states_to_complex_states(self.replay_buffer.get_experience_by_index(id).state) for id in experiences_indices])
             partial_rewards = np.array([self.replay_buffer.get_experience_by_index(id).reward[0] for id in experiences_indices]).astype(np.float32).reshape(-1, globals.N_PLAYER)
             global_rewards = np.array([self.replay_buffer.get_experience_by_index(id).reward[1] for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
-            next_states = np.vstack([globals.norm_state(self.replay_buffer.get_experience_by_index(id).next_state) for id in experiences_indices])
+            next_states = np.vstack([states_to_complex_states(self.replay_buffer.get_experience_by_index(id).next_state) for id in experiences_indices])
             dones = np.array([self.replay_buffer.get_experience_by_index(id).done for id in experiences_indices]).astype(np.int32).reshape(-1, 1)
             
             
             max_Qs_next = [None for _ in range(bot_num)]
             max_Qs = [None for _ in range(bot_num)]
-            for bot_id in range(bot_num):
-                actions = np.array([self.replay_buffer.get_experience_by_index(id).actions[bot_id] for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
-                
-                target_Qs = self.sess.run(self.team_group.test_layer, # self.team_group.team_member_move_shoot_output[bot_id], 
-                            feed_dict={self.team_group.states: next_states, self.team_group.is_training: False})
-                            
-                max_Qs_next[bot_id] = np.max(target_Qs, axis=1).reshape(-1,1)
-                
-                max_Qs[bot_id] = self.sess.run(self.team_group.team_member_move_shoot_q_nets[bot_id], 
-                            feed_dict={self.team_group.states: states,
-                                       self.team_group.actions_: actions, self.team_group.is_training: False})
             
             for bot_id in range(bot_num):
                 actions = np.array([self.replay_buffer.get_experience_by_index(id).actions[bot_id] for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
@@ -386,3 +375,11 @@ class Trainer:
         saver = tf.train.Saver(var_list=vars_list)
         saver.save(self.sess, globals.MODEL_SAVE_PATH)
         print("Done!")
+        
+    def perform_layer_output_test(self, complex_states, bot_num):
+        outputs = [None for _ in range(bot_num)]
+        for bot_id in range(bot_num):
+            outputs[bot_id] = self.sess.run(self.team_group.test_layer[bot_id], 
+                        feed_dict={self.team_group.states: complex_states, self.team_group.is_training: False}).squeeze(0)
+                        
+        return outputs

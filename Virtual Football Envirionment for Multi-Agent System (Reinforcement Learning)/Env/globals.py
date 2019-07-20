@@ -87,22 +87,3 @@ def input_to_states(gameTurn, oBall, Player_A, Player_B, Bmap):
         state[15+i] = Player_B[Bmap[i]].m_pos.x
         state[20+i] = Player_B[Bmap[i]].m_pos.y
     return state[1:]
-    
-def norm_state(state_var):
-    state = np.array(state_var)
-    state[0] = (state[0] - MAP_WIDTH/2) / MAP_WIDTH
-    state[1] = (state[1] - MAP_HEIGHT/2) / MAP_HEIGHT
-    state[2] = state[2] / 1000
-    state[3] = state[3] / 1000
-    
-    for i in range(N_PLAYER):
-        state[4+i] = (state[4+i] - MAP_WIDTH/2) / MAP_WIDTH
-        state[9+i] = (state[9+i] - MAP_HEIGHT/2) / MAP_HEIGHT
-        state[14+i] = (state[14+i] - MAP_WIDTH/2) / MAP_WIDTH
-        state[19+i] = (state[19+i] - MAP_HEIGHT/2) / MAP_HEIGHT
-        
-    for i in range(24):
-        for j in range(24):
-            state[i * 24 + j + 24] = state[i] * state[j];
-    
-    return state

@@ -1,4 +1,24 @@
+import numpy as np
 import globals
+
+def states_to_complex_states(state_var):
+    state = np.array(state_var)
+    state[0] = (state[0] - globals.MAP_WIDTH/2) / globals.MAP_WIDTH
+    state[1] = (state[1] - globals.MAP_HEIGHT/2) / globals.MAP_HEIGHT
+    state[2] = state[2] / 1000
+    state[3] = state[3] / 1000
+    
+    for i in range(globals.N_PLAYER):
+        state[4+i] = (state[4+i] - globals.MAP_WIDTH/2) / globals.MAP_WIDTH
+        state[9+i] = (state[9+i] - globals.MAP_HEIGHT/2) / globals.MAP_HEIGHT
+        state[14+i] = (state[14+i] - globals.MAP_WIDTH/2) / globals.MAP_WIDTH
+        state[19+i] = (state[19+i] - globals.MAP_HEIGHT/2) / globals.MAP_HEIGHT
+        
+    for i in range(24):
+        for j in range(24):
+            state[i * 24 + j + 24] = state[i] * state[j];
+    
+    return state
 
 class Features:
     def __init__(self, Player_A, Player_B, oBall):

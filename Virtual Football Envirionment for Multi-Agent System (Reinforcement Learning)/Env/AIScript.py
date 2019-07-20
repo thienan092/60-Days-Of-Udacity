@@ -6,37 +6,6 @@ import globals, model, trainBot
 BATCH_SIZE = 32
 EPOCHS = 1000
 
-def matrices_to_file(var_dict):
-    if not os.path.exists("matrices0/"):
-        os.makedirs("matrices0/")
-    if not os.path.exists("matrices1/"):
-        os.makedirs("matrices1/")
-        
-    for key, value in var_dict.items():
-        file_name_part = key.split("/")
-        file_name = "matrices0/" + file_name_part[0] + "_" + file_name_part[1] + "_" + file_name_part[2][0:-2] + ".npy"
-        np.save(file_name, value[0].flatten())# , header=key, delimiter=",", newline="},\n{")
-        file_name = "matrices1/" + file_name_part[0] + "_" + file_name_part[1] + "_" + file_name_part[2][0:-2] + ".npy"
-        np.save(file_name, value[0].flatten())
-        
-def save_running_model_matrices():
-    print("Saving matrices!!!")
-    t_vars = tf.trainable_variables()
-    g_vars = tf.global_variables()
-    var_dict = dict()
-    for var in t_vars:
-        if (var.name.startswith('team_member_move_shoot_') and (("beta" in var.name) or ("gamma" in var.name) or ("bias" in var.name) or ("kernel" in var.name))):
-            np_var = sess.run([var])
-            var_dict[var.name] = np_var
-        
-    for var in g_vars:
-        if (var.name.startswith('team_member_move_shoot_') and (("moving_variance" in var.name) or ("moving_mean" in var.name))):
-            np_var = sess.run([var])
-            var_dict[var.name] = np_var
-    
-    matrices_to_file(var_dict)
-    print("Done!!!")
-
 if __name__ == '__main__':
     if not os.path.exists("matches_data/"):
         os.makedirs("matches_data/")
@@ -64,7 +33,7 @@ if __name__ == '__main__':
             saver.save(sess, globals.MODEL_SAVE_PATH)
             print("Done!")
             
-        save_running_model_matrices()
+        model.save_running_model_matrices(sess)
             
         trainer = trainBot.Trainer(team_group, BATCH_SIZE, EPOCHS, sess)
         
@@ -96,7 +65,7 @@ if __name__ == '__main__':
                 thd_id = (thd_id + 1) % thead_num
                 
             trainer.train(globals.N_PLAYER)
-            save_running_model_matrices()
+            model.save_running_model_matrices(sess)
             
             
             ths = [None for _ in range(thead_num)]
