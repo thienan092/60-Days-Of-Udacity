@@ -176,6 +176,8 @@ int main()
 			
 
 			ChangePos(x, y, myTeamID, stateMath);
+			x = (x < 0)? (-x) : ((x > mapWidth) ? (2 * mapWidth - x) : x);
+			y = (y < 0) ? (-y) : ((y > mapHeight) ? (2 * mapHeight - y) : y);
 			printf("%d %d %d %d ", action, x, y, f);
 		}
 

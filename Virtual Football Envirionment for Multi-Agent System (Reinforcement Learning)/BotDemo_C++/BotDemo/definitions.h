@@ -4,7 +4,7 @@
 #define BOT_TEST_ID 0
 
 #if !LAYER_OUTPUT_TEST
-#define BOT_ID 0
+#define BOT_ID 1
 #else
 #define BOT_ID BOT_TEST_ID
 #endif // !LAYER_OUTPUT_TEST

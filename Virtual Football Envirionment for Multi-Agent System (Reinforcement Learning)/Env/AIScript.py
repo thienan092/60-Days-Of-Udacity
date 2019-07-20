@@ -39,6 +39,11 @@ if __name__ == '__main__':
         
         epochs_count = 4
         thead_num = 2
+        
+        print("Training...")
+        print(f"No. Epoch: {EPOCHS}. ")
+        print(f"BATCH_SIZE: {BATCH_SIZE}. ")
+        print(f"Loading ~{BATCH_SIZE*1000} samples into Replay buffer")
         for epoch_id in range(epochs_count): 
             print("Epoch {}: ".format(epoch_id))
             

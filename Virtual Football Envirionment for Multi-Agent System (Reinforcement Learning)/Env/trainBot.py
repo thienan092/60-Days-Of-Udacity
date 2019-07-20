@@ -304,9 +304,7 @@ class Trainer:
                 
                 target_Qs = self.sess.run(self.team_group.team_member_move_shoot_output[bot_id], 
                             feed_dict={self.team_group.states: next_states, self.team_group.is_training: False})
-                
 
-                            
                 max_Qs_next[bot_id] = np.max(target_Qs, axis=1).reshape(-1,1)
                 
                 max_Qs[bot_id] = self.sess.run(self.team_group.team_member_move_shoot_q_nets[bot_id], 
@@ -348,6 +346,17 @@ class Trainer:
             
             max_Qs_next = [None for _ in range(bot_num)]
             max_Qs = [None for _ in range(bot_num)]
+            for bot_id in range(bot_num):
+                actions = np.array([self.replay_buffer.get_experience_by_index(id).actions[bot_id] for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
+                
+                target_Qs = self.sess.run(self.team_group.team_member_move_shoot_output[bot_id], 
+                            feed_dict={self.team_group.states: next_states, self.team_group.is_training: False})
+
+                max_Qs_next[bot_id] = np.max(target_Qs, axis=1).reshape(-1,1)
+                
+                max_Qs[bot_id] = self.sess.run(self.team_group.team_member_move_shoot_q_nets[bot_id], 
+                            feed_dict={self.team_group.states: states,
+                                       self.team_group.actions_: actions, self.team_group.is_training: False})
             
             for bot_id in range(bot_num):
                 actions = np.array([self.replay_buffer.get_experience_by_index(id).actions[bot_id] for id in experiences_indices]).astype(np.float32).reshape(-1, 1)
