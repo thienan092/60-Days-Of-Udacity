@@ -1,6 +1,6 @@
 #pragma once
 
-#define LAYER_OUTPUT_TEST 1
+#define LAYER_OUTPUT_TEST 0
 #define BOT_TEST_ID 0
 
 #if !LAYER_OUTPUT_TEST

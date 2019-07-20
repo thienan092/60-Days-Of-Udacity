@@ -275,3 +275,14 @@ Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/En
 Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/Env/unit_test_outputs/test_layer_p0.txt
 Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/Env/unit_test_outputs/Cstates.txt
 Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/Env/log5.txt
+Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/BotDemo_C++/BotDemo/BotDemo.vcxproj.user
+Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/BotDemo_C++/BotDemo/Release/BotDemo.log
+Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/BotDemo_C++/BotDemo/Release/BotDemo.tlog/BotDemo.lastbuildstate
+Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/BotDemo_C++/BotDemo/Release/BotDemo.tlog/unsuccessfulbuild
+Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/BotDemo_C++/BotDemo/Release/vc141.pdb
+*.obj
+*.tlog
+*.iobj
+*.ipdb
+*.pdb
+Virtual Football Envirionment for Multi-Agent System (Reinforcement Learning)/BotDemo_C++/Release/BotDemo.exe

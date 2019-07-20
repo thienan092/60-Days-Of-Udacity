@@ -81,7 +81,6 @@ class Group:
         
         with tf.variable_scope('team_member_move_shoot_{}'.format(id), reuse=False):
             team_move_shoot_net = tf.layers.dense(states, LAYER_SIZE1, use_bias=False, activation=None)
-            self.test_layer[id] = team_move_shoot_net
             team_move_shoot_net = tf.layers.batch_normalization(team_move_shoot_net, training=self.is_training)
             team_move_shoot_net = tf.maximum(ALPHA * team_move_shoot_net, team_move_shoot_net)
             #team_move_shoot_net = tf.nn.relu(team_move_shoot_net)
@@ -107,6 +106,6 @@ class Group:
             #team_move_shoot_net = tf.nn.dropout(team_move_shoot_net, keep_prob=KEEP_PROB)
             
             output = tf.layers.dense(team_move_shoot_net, globals.MOVE_ACTION_SIZE + globals.SHOOT_ACTION_SIZE, activation=None, kernel_initializer=tf.random_uniform_initializer(minval=-0.003, maxval=0.003))
-            
+            self.test_layer[id] = output
             Q = tf.reshape(tf.reduce_sum(tf.multiply(output, tf.squeeze(one_hot_move_shoot_actions)), axis=1), [-1, 1])
         return output, Q
