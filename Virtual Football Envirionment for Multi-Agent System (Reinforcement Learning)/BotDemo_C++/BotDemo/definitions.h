@@ -1,6 +1,14 @@
 #pragma once
 
+#define LAYER_OUTPUT_TEST 1
+#define BOT_TEST_ID 0
+
+#if !LAYER_OUTPUT_TEST
 #define BOT_ID 0
+#else
+#define BOT_ID BOT_TEST_ID
+#endif // !LAYER_OUTPUT_TEST
+
 
 #define STR_X(x) #x
 #define STR(x) STR_X(x)
@@ -82,6 +90,5 @@ void ChangePos(Object& A, int myTeamID, int match);
 void ChangePos(int& x, int&y, int myTeamID, int match);
 bool CanShoot(Position& mPos, Position& ballPos);
 float DistancePos(Position& PosA, Position& PosB);
-void input_to_norm_states(int gameTurn, Object& oBall, Object** Player_A, Object** Player_B, float* state, int* Bmap);
 void to_pos_x_y(Object& player, int q_id, int& x, int& y);
 void to_pos_x_y_f(Object& player, int q_id, int& x, int& y, int& f);

@@ -145,6 +145,30 @@ void Features::calc_Bmap()
 	}
 }
 
+void Features::states_to_complex_states(Object& oBall, Object** Player_A, Object** Player_B, float* state, int* Bmap)
+{
+	state[0] = (((float)oBall.m_pos.x) - (((float)mapWidth) / 2)) / mapWidth;
+	state[1] = (((float)oBall.m_pos.y) - (((float)mapHeight) / 2)) / mapHeight;
+	state[2] = ((float)oBall.m_moveSpeed.x) / 1000;
+	state[3] = ((float)oBall.m_moveSpeed.y) / 1000;
+
+	for (int i = 0; i < N_PLAYER; i++)
+	{
+		state[4 + i] = (((float)Player_A[i]->m_pos.x) - (((float)mapWidth) / 2)) / mapWidth;
+		state[9 + i] = (((float)Player_A[i]->m_pos.y) - (((float)mapHeight) / 2)) / mapHeight;
+		state[14 + i] = (((float)Player_B[Bmap[i]]->m_pos.x) - (((float)mapWidth) / 2)) / mapWidth;;
+		state[19 + i] = (((float)Player_B[Bmap[i]]->m_pos.y) - (((float)mapHeight) / 2)) / mapHeight;
+	}
+
+	for (int i = 0; i < 24; i++)
+	{
+		for (int j = 0; j < 24; j++)
+		{
+			state[i * 24 + j + 24] = state[i] * state[j];
+		}
+
+	}
+}
 
 Features::~Features()
 {

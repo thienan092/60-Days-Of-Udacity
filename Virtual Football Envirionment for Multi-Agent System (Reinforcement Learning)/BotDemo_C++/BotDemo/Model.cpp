@@ -115,6 +115,17 @@ void Model::CalculateQs(float* state)
 {
 	for (int team_mate_id = 0; team_mate_id < N_PLAYER; team_mate_id++)
 	{
+#if LAYER_OUTPUT_TEST
+		{
+			ofstream out_file("unit_test_outputs/Cstates.txt");
+			for (int i = 0; i < STATE_SIZE; i++)
+			{
+				out_file << state[i] << " ";
+			}
+		}
+		MiniFlow::Mul(state, STATE_SIZE, ((float*)team_mate_matrices0) + team_mate_id * STATE_SIZE * HIDDEN_LAYER1, HIDDEN_LAYER1, ((float*)test_layer_results) + team_mate_id*HIDDEN_LAYER1);
+#endif
+
 		MiniFlow::Mul(state, STATE_SIZE, ((float*)team_mate_matrices0) + team_mate_id * STATE_SIZE * HIDDEN_LAYER1, HIDDEN_LAYER1, result_HIDDEN_LAYER1);
 
 		MiniFlow::BNorm(((float*)team_mate_beta0) + team_mate_id * HIDDEN_LAYER1, \

@@ -18,7 +18,7 @@ int mapHeight = 9600;
 
 using namespace std;
 
-
+#if !LAYER_OUTPUT_TEST
 int main()
 {
 	float state[STATE_SIZE + 1];
@@ -111,9 +111,9 @@ int main()
 
 		//Demo send players' action to server		
 		Features features(Player_A, Player_B, oBall);
-		input_to_norm_states(gameTurn, oBall, Player_A, Player_B, (float*)state, (int*)features.Bmap);
+		Features::states_to_complex_states(oBall, Player_A, Player_B, (float*)state, (int*)features.Bmap);
 		
-		model.CalculateQs(((float*)state) + 1);
+		model.CalculateQs(((float*)state));
 
 		for (int i = 0; i < N_PLAYER; i++)
 		{
@@ -182,3 +182,59 @@ int main()
 	}
 	return 0;
 }
+#else
+int main(int argc, char *argv[])
+{
+	if (argc > 1) {
+		float state[STATE_SIZE];
+		Model model;
+		model.LoadMatrices();
+
+		int gameTurn = 0;
+		int scoreTeamA = 0;
+		int scoreTeamB = 0;
+		int stateMath = 0;
+		int myTeamID = 1;
+		int maxTurn = 0;
+
+		Object** Player_A = new Object*[5];
+		for (int i = 0; i < N_PLAYER; i++)
+		{
+			Player_A[i] = new Object;
+		}
+		Object** Player_B = new Object*[5];
+		for (int i = 0; i < N_PLAYER; i++)
+		{
+			Player_B[i] = new Object;
+		}
+		Object oBall;
+
+		istringstream ss(argv[1]);
+
+
+
+		ss >> gameTurn >> scoreTeamA >> scoreTeamB >> stateMath;
+		ss >> oBall.m_pos.x >> oBall.m_pos.y >> oBall.m_moveSpeed.x >> oBall.m_moveSpeed.y;
+
+		//Input team players A
+		for (int i = 0; i < N_PLAYER; i++) {
+			ss >> Player_A[i]->ID >> Player_A[i]->m_pos.x >> Player_A[i]->m_pos.y;
+		}
+
+		//Input team players B
+		for (int i = 0; i < N_PLAYER; i++) {
+			ss >> Player_B[i]->ID >> Player_B[i]->m_pos.x >> Player_B[i]->m_pos.y;
+		}
+
+		Features features(Player_A, Player_B, oBall);
+		Features::states_to_complex_states(oBall, Player_A, Player_B, (float*)state, (int*)features.Bmap);
+
+		model.CalculateQs(((float*)state));
+		model.write_test_layer();
+
+		return 0;
+	}
+
+	return -1;
+}
+#endif
