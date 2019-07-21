@@ -7,7 +7,6 @@ This project is not only a Multi-Agent environment but also an illustration of a
 - Runtime tools: Node.js (download [here](https://nodejs.org/en/blog/release/v8.11.3/)). 
 - C++ compiler: Visual C++ 2017 (it's better to setup it VC2017 along with Visual Studio 2017). 
 - Python dependencies: python (3.6.6), tensorflow (1.10.0) / pytorch (latest version), numpy (1.14.5). 
-- Run StartMatch.bat. 
 
 ## Playing rules 
 
@@ -98,6 +97,27 @@ In that,
 | 2. Train your model | .\Env\trainBot.py | class ServerInfo | Parse replay-log files into features (inputs of AI algorithms) |
 |  |  | class PEReplayBuffer | Create a [Prioritized Experience Replay buffer](https://arxiv.org/pdf/1511.05952.pdf) (contains fields are ["state", "actions", "reward", "next_state", "done"]) replay-logs based on class ServerInfo |
 |  |  | class Trainer | Train agents and save matrices to *.npy files |
+
+## Unit tests for matrix computations
+1. Set *LAYER_OUTPUT_TEST* to *1*. 
+
+![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/unit_test.PNG)
+
+2. Specify tested matrix of C++ part by putting *TESTED_LAYER_SPECIFYING_POINT* right above it. 
+
+![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/cpp_unit_test.PNG)
+
+*Note: There is* __only one__ *tested layer for one time testing. If you specify more than 1 layer, a compile-error will be thrown up.*
+
+![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/cpp_unit_test_error.PNG)
+
+3. Assign tested matrix of Python part to *test_layer* list. 
+
+![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/py_unit_test.PNG)
+
+4. Run layer_output_test.py. 
+
+![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/unit_test_result.PNG)
 
 ## Simulate a match
 
