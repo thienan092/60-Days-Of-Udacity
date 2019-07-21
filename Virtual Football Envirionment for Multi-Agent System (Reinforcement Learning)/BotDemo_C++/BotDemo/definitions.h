@@ -1,10 +1,10 @@
 #pragma once
 
-#define LAYER_OUTPUT_TEST 1
+#define LAYER_OUTPUT_TEST 0
 
 
 #if !LAYER_OUTPUT_TEST
-#define BOT_ID 1
+#define BOT_ID 0
 
 #else
 
