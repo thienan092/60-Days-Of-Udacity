@@ -10,7 +10,9 @@ This project is not only a Multi-Agent environment but also an illustration of a
 
 ## Playing rules 
 
-The size of the football field: *14400 x 9600* units, lasts in *1156* turns (*500* turns for each half and *156* for extra-time). 
+A match will lasts in *1156* turns (*500* turns for each half and *156* for extra-time). 
+
+The size of the football field: *14400 x 9600* units.
 
 ![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/scene.png)
 
