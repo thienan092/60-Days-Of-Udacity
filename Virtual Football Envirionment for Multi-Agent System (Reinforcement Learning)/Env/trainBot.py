@@ -383,6 +383,7 @@ class Trainer:
         vars_list = [var for var in t_vars]
         saver = tf.train.Saver(var_list=vars_list)
         saver.save(self.sess, globals.MODEL_SAVE_PATH)
+        model.save_running_model_matrices(self.sess)
         print("Done!")
         
     def perform_layer_output_test(self, complex_states, bot_num):

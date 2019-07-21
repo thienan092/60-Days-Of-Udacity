@@ -185,6 +185,8 @@ int main()
 	return 0;
 }
 #else
+int p_id = -1;
+
 int main(int argc, char *argv[])
 {
 	if (argc > 1) {
@@ -232,7 +234,6 @@ int main(int argc, char *argv[])
 		Features::states_to_complex_states(oBall, Player_A, Player_B, (float*)state, (int*)features.Bmap);
 
 		model.CalculateQs(((float*)state));
-		model.write_test_layer();
 
 		return 0;
 	}

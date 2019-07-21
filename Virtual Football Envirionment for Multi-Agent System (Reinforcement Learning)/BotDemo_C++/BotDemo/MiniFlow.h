@@ -2,8 +2,12 @@
 #include <string>
 #include "definitions.h"
 #include "npy.hpp"
+#include <fstream>
 
 using namespace std;
+#if LAYER_OUTPUT_TEST
+extern int p_id;
+#endif
 
 class MiniFlow
 {
@@ -40,26 +44,68 @@ public:
 
 	static void BNorm(float* beta, float* gamma, float* mean, float* var, int len, float* result)
 	{
+#if LAYER_OUTPUT_TEST
+		ofstream* out_file;
+		if (p_id != -1)
+			out_file = new ofstream(string("unit_test_outputs/test_layer_p") + to_string(p_id) + string(".txt"));
+#endif
+
 		for (int i = 0; i < len; i++)
 		{
 			result[i] = gamma[i] * (result[i] - mean[i]) / sqrt(var[i] + 0.001f) + beta[i];
+#if LAYER_OUTPUT_TEST
+			if (p_id != -1)
+				*out_file << result[i] << " ";
+#endif
 		}
+
+#if LAYER_OUTPUT_TEST
+		if (p_id != -1)
+			delete out_file; p_id = -1;
+#endif
 	}
 
 	static void Bias(float* bias, int len, float* result)
 	{
+#if LAYER_OUTPUT_TEST
+		ofstream* out_file;
+		if (p_id != -1)
+			out_file = new ofstream(string("unit_test_outputs/test_layer_p") + to_string(p_id) + string(".txt"));
+#endif
+
 		for (int i = 0; i < len; i++)
 		{
 			result[i] = result[i] + bias[i];
+#if LAYER_OUTPUT_TEST
+			if (p_id != -1)
+				*out_file << result[i] << " ";
+#endif
 		}
+#if LAYER_OUTPUT_TEST
+		if (p_id != -1)
+			delete out_file; p_id = -1;
+#endif
 	}
 
 	static void ReLu(float* result, int len)
 	{
+#if LAYER_OUTPUT_TEST
+		ofstream* out_file;
+		if (p_id != -1)
+			out_file = new ofstream(string("unit_test_outputs/test_layer_p") + to_string(p_id) + string(".txt"));
+#endif
 		for (int i = 0; i < len; i++)
 		{
 			result[i] = max(ALPHA * result[i], result[i]);
+#if LAYER_OUTPUT_TEST
+			if (p_id != -1)
+				*out_file << result[i] << " ";
+#endif
 		}
+#if LAYER_OUTPUT_TEST
+		if (p_id != -1)
+			delete out_file; p_id = -1;
+#endif
 	}
 
 	//void Sigmoid(float* result, int len)
@@ -72,6 +118,12 @@ public:
 
 	static void Mul(float* Vec, int V_len, float* MatA, int A_width, float* result)
 	{
+#if LAYER_OUTPUT_TEST
+		ofstream* out_file;
+		if (p_id != -1)
+			out_file = new ofstream(string("unit_test_outputs/test_layer_p") + to_string(p_id) + string(".txt"));
+#endif
+
 		for (int j = 0; j < A_width; j++)
 		{
 			result[j] = 0;
@@ -79,7 +131,15 @@ public:
 			{
 				result[j] += Vec[i] * (*(((float*)MatA) + i * A_width + j));
 			}
+#if LAYER_OUTPUT_TEST
+			if (p_id != -1)
+				*out_file << result[j] << " ";
+#endif
 		}
+#if LAYER_OUTPUT_TEST
+		if (p_id != -1)
+			delete out_file; p_id = -1;
+#endif
 	}
 
 

@@ -5,6 +5,9 @@ import globals, model, trainBot
 from features import states_to_complex_states
 
 if __name__ == '__main__':
+    if not os.path.exists("unit_test_outputs/"):
+        os.makedirs("unit_test_outputs/")
+
     if 'session' in locals() and session is not None:
         session.close()
     with tf.Session() as sess:
@@ -15,9 +18,7 @@ if __name__ == '__main__':
         vars_list = [var for var in t_vars]
         saver = tf.train.Saver(var_list=vars_list)
         saver.restore(sess, globals.MODEL_SAVE_PATH)
-        print("Done!")
-        print("Saving Model...")
-        # model.save_running_model_matrices(sess)
+        model.save_running_model_matrices(sess)
         print("Done!")
     
         trainer = trainBot.Trainer(team_group, 0, 0, sess)
@@ -47,10 +48,14 @@ if __name__ == '__main__':
             C_outputs[i] = np.loadtxt(file_name)
             C_matrix = np.array(C_outputs[i]).flatten()
             P_matrix = np.array(outputs[i]).flatten()
+            print(globals.bcolors.OKBLUE+"Python:"+globals.bcolors.ENDC)
             print(outputs[i][:10])
+            print(globals.bcolors.OKGREEN+"C++:"+globals.bcolors.ENDC)
             print(C_outputs[i][:10])
-            print("Unmatched entries: ")
+            print(globals.bcolors.WARNING+"Unmatched entries: "+globals.bcolors.ENDC)
+            print(globals.bcolors.FAIL+"Python:"+globals.bcolors.ENDC)
             print((P_matrix[:10])[np.abs(C_matrix-P_matrix)[:10] > 1e-7])
+            print(globals.bcolors.FAIL+"C++:"+globals.bcolors.ENDC)
             print((C_matrix[:10])[np.abs(C_matrix-P_matrix)[:10] > 1e-7])
             print("------------------------")
         

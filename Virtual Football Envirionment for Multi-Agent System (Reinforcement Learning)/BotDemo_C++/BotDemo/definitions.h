@@ -1,12 +1,17 @@
 #pragma once
 
-#define LAYER_OUTPUT_TEST 0
-#define BOT_TEST_ID 0
+#define LAYER_OUTPUT_TEST 1
+
 
 #if !LAYER_OUTPUT_TEST
 #define BOT_ID 1
+
 #else
+
+#define BOT_TEST_ID 0
 #define BOT_ID BOT_TEST_ID
+#define TESTED_LAYER_SPECIFYING_POINT bool specifying_flag = true; p_id = team_mate_id;
+
 #endif // !LAYER_OUTPUT_TEST
 
 

@@ -123,7 +123,8 @@ void Model::CalculateQs(float* state)
 				out_file << state[i] << " ";
 			}
 		}
-		MiniFlow::Mul(state, STATE_SIZE, ((float*)team_mate_matrices0) + team_mate_id * STATE_SIZE * HIDDEN_LAYER1, HIDDEN_LAYER1, ((float*)test_layer_results) + team_mate_id*HIDDEN_LAYER1);
+
+TESTED_LAYER_SPECIFYING_POINT
 #endif
 
 		MiniFlow::Mul(state, STATE_SIZE, ((float*)team_mate_matrices0) + team_mate_id * STATE_SIZE * HIDDEN_LAYER1, HIDDEN_LAYER1, result_HIDDEN_LAYER1);
@@ -158,6 +159,7 @@ void Model::CalculateQs(float* state)
 		MiniFlow::ReLu(result_HIDDEN_LAYER2_SWP, HIDDEN_LAYER2);
 
 		MiniFlow::Mul(result_HIDDEN_LAYER2_SWP, HIDDEN_LAYER2, ((float*)team_mate_matrices_output) + team_mate_id * HIDDEN_LAYER2 * (MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE), MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE, ((float*)Qs) + team_mate_id * (MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE));
+
 		MiniFlow::Bias(((float*)team_mate_bias_output) + team_mate_id * (MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE), (MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE), ((float*)Qs) + team_mate_id * (MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE));
 	}
 }

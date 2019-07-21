@@ -41,23 +41,6 @@ class Model
 	int FindIndexMaxQs(int first, int last);
 
 public:
-#if LAYER_OUTPUT_TEST
-	float test_layer_results[N_PLAYER][MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE];
-
-	void write_test_layer()
-	{
-		for (int p_id = 0; p_id < N_PLAYER; p_id++)
-		{
-			ofstream out_file(string("unit_test_outputs/test_layer_p")+ to_string(p_id)+string(".txt"));
-			for (int i = 0; i < (MOVE_ACTION_SIZE + SHOOT_ACTION_SIZE); i++)
-			{
-				out_file << Qs[p_id][i] <<" ";
-			}
-		}
-	}
-#endif // LAYER_OUTPUT_TEST
-
-
 	Model();
 	void LoadMatrices();
 	void CalculateQs(float* state);

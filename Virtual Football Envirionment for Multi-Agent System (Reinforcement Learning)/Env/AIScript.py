@@ -23,6 +23,7 @@ if __name__ == '__main__':
             vars_list = [var for var in t_vars]
             saver = tf.train.Saver(var_list=vars_list)
             saver.restore(sess, globals.MODEL_SAVE_PATH)
+            model.save_running_model_matrices(sess)
             print("Done!")
         else:
             print("No checkpoint was found!!")
@@ -31,10 +32,9 @@ if __name__ == '__main__':
             vars_list = [var for var in t_vars]
             saver = tf.train.Saver(var_list=vars_list)
             saver.save(sess, globals.MODEL_SAVE_PATH)
+            model.save_running_model_matrices(sess)
             print("Done!")
-            
-        model.save_running_model_matrices(sess)
-            
+
         trainer = trainBot.Trainer(team_group, BATCH_SIZE, EPOCHS, sess)
         
         epochs_count = 4
@@ -70,7 +70,6 @@ if __name__ == '__main__':
                 thd_id = (thd_id + 1) % thead_num
                 
             trainer.train(globals.N_PLAYER)
-            model.save_running_model_matrices(sess)
             
             
             ths = [None for _ in range(thead_num)]
