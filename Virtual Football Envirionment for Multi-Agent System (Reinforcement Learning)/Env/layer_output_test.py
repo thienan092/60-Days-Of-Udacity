@@ -1,4 +1,4 @@
-import subprocess
+import os, subprocess
 import tensorflow as tf
 import numpy as np
 import globals, model, trainBot
