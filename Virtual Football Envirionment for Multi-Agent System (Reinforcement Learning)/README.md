@@ -121,7 +121,10 @@ In that,
 
 ## Simulate a match
 
-1. Build your bot with the Visual C++ compiler. 
+1. Build your bot with the Visual C++ compiler, under Release|Win32 configuration. 
+
+![alt text](https://github.com/thienan092/60-Days-Of-Udacity/blob/master/Virtual%20Football%20Envirionment%20for%20Multi-Agent%20System%20(Reinforcement%20Learning)/media/BuildCfg.PNG)
+
 2. Rename it to BotDemo<BOT_ID>.exe. 
 3. Run StartMatch.bat. 
 
